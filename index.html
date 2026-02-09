@@ -9,209 +9,209 @@
 
 <style>
 :root{
---bg:#0b0b0f;
---surface:rgba(255,255,255,.06);
---glass:rgba(255,255,255,.12);
---border:rgba(255,255,255,.15);
---accent:#0affff;
---danger:#ff5c5c;
---blur:blur(20px);
+  --bg:#0b0b0f;
+  --surface:rgba(255,255,255,.06);
+  --glass:rgba(255,255,255,.12);
+  --border:rgba(255,255,255,.15);
+  --accent:#0affff;
+  --danger:#ff5c5c;
+  --blur:blur(20px);
 }
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
 }
 
 body{
-background:
-radial-gradient(circle at 30% -10%,#1a1a3a,#050507),
-radial-gradient(circle at 80% 120%,#002f30,#050507);
-color:#f1f1f1;
-min-height:100vh;
-padding:30px;
+  background:
+    radial-gradient(circle at 30% -10%,#1a1a3a,#050507),
+    radial-gradient(circle at 80% 120%,#002f30,#050507);
+  color:#f1f1f1;
+  min-height:100vh;
+  padding:30px;
 }
 
 .container{
-max-width:1400px;
-margin:auto;
+  max-width:1400px;
+  margin:auto;
 }
 
 /* HEADER */
 header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
 }
 
 header h1{
-font-size:1.8rem;
-font-weight:700;
-letter-spacing:-1px;
-background:linear-gradient(90deg,#fff,var(--accent));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+  font-size:1.8rem;
+  font-weight:700;
+  letter-spacing:-1px;
+  background:linear-gradient(90deg,#fff,var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 #clock{
-font-size:1.2rem;
-opacity:.8;
+  font-size:1.2rem;
+  opacity:.8;
 }
 
 /* COMMAND BAR */
 .command{
-background:var(--surface);
-backdrop-filter:var(--blur);
-border:1px solid var(--border);
-border-radius:24px;
-padding:20px;
-display:grid;
-grid-template-columns:2fr 1fr auto;
-gap:15px;
-box-shadow:0 30px 80px rgba(0,0,0,.6);
-animation:slideDown .7s cubic-bezier(.2,.8,.2,1);
+  background:var(--surface);
+  backdrop-filter:var(--blur);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:20px;
+  display:grid;
+  grid-template-columns:2fr 1fr auto;
+  gap:15px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  animation:slideDown .7s cubic-bezier(.2,.8,.2,1);
 }
 
 @keyframes slideDown{
-from{opacity:0;transform:translateY(-20px)}
-to{opacity:1;transform:translateY(0)}
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 input{
-background:transparent;
-border:1px solid var(--border);
-padding:14px;
-border-radius:14px;
-color:white;
-outline:none;
-font-size:.95rem;
+  background:transparent;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:14px;
+  color:white;
+  outline:none;
+  font-size:.95rem;
 }
 
 button{
-background:linear-gradient(135deg,var(--accent),#5fffff);
-border:none;
-border-radius:14px;
-padding:0 28px;
-font-weight:600;
-cursor:pointer;
-color:#000;
-transition:.4s cubic-bezier(.2,.8,.2,1);
+  background:linear-gradient(135deg,var(--accent),#5fffff);
+  border:none;
+  border-radius:14px;
+  padding:0 28px;
+  font-weight:600;
+  cursor:pointer;
+  color:#000;
+  transition:.4s cubic-bezier(.2,.8,.2,1);
 }
 
 button:hover{
-transform:scale(1.06);
-box-shadow:0 0 30px rgba(0,255,255,.6);
+  transform:scale(1.06);
+  box-shadow:0 0 30px rgba(0,255,255,.6);
 }
 
 /* SEARCH */
 .search{
-margin:30px 0 15px;
-display:flex;
-justify-content:center;
+  margin:30px 0 15px;
+  display:flex;
+  justify-content:center;
 }
 
 .search input{
-width:60%;
-text-align:center;
-background:var(--surface);
-backdrop-filter:var(--blur);
-border-radius:30px;
+  width:60%;
+  text-align:center;
+  background:var(--surface);
+  backdrop-filter:var(--blur);
+  border-radius:30px;
 }
 
 /* SECTIONS */
 .section{
-margin-top:30px;
+  margin-top:30px;
 }
 
 .section h2{
-font-size:1.2rem;
-font-weight:600;
-opacity:.8;
-margin-bottom:15px;
+  font-size:1.2rem;
+  font-weight:600;
+  opacity:.8;
+  margin-bottom:15px;
 }
 
 /* GRID */
 .grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-gap:24px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:24px;
 }
 
 /* CARD */
 .card{
-background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-backdrop-filter:var(--blur);
-border:1px solid var(--border);
-border-radius:26px;
-padding:22px;
-transition:.6s cubic-bezier(.2,.8,.2,1);
-animation:fadeUp .6s both;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  backdrop-filter:var(--blur);
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:22px;
+  transition:.6s cubic-bezier(.2,.8,.2,1);
+  animation:fadeUp .6s both;
 }
 
 @keyframes fadeUp{
-from{opacity:0;transform:translateY(25px) scale(.95)}
-to{opacity:1;transform:translateY(0) scale(1)}
+  from{opacity:0;transform:translateY(25px) scale(.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
 
 .card:hover{
-transform:scale(1.04);
-box-shadow:0 40px 90px rgba(0,0,0,.7);
+  transform:scale(1.04);
+  box-shadow:0 40px 90px rgba(0,0,0,.7);
 }
 
 .card.focus{
-outline:2px solid var(--accent);
-box-shadow:0 0 0 8px rgba(0,255,255,.15);
+  outline:2px solid var(--accent);
+  box-shadow:0 0 0 8px rgba(0,255,255,.15);
 }
 
 .card h3{
-font-size:1.1rem;
-margin-bottom:10px;
+  font-size:1.1rem;
+  margin-bottom:10px;
 }
 
 .card p{
-font-size:.9rem;
-opacity:.75;
-min-height:38px;
+  font-size:.9rem;
+  opacity:.75;
+  min-height:38px;
 }
 
 .footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:20px;
-font-size:.8rem;
-opacity:.8;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+  font-size:.8rem;
+  opacity:.8;
 }
 
 .actions{
-display:flex;
-gap:10px;
+  display:flex;
+  gap:10px;
 }
 
 .actions button{
-padding:6px 12px;
-font-size:.8rem;
+  padding:6px 12px;
+  font-size:.8rem;
 }
 
 /* TOAST */
 #toast{
-position:fixed;
-top:30px;
-right:30px;
-background:var(--danger);
-padding:16px 30px;
-border-radius:22px;
-font-weight:600;
-display:none;
-animation:slideIn .5s ease;
+  position:fixed;
+  top:30px;
+  right:30px;
+  background:var(--danger);
+  padding:16px 30px;
+  border-radius:22px;
+  font-weight:600;
+  display:none;
+  animation:slideIn .5s ease;
 }
 
 @keyframes slideIn{
-from{transform:translateX(120%)}
-to{transform:translateX(0)}
+  from{transform:translateX(120%)}
+  to{transform:translateX(0)}
 }
 </style>
 </head>
@@ -223,92 +223,162 @@ to{transform:translateX(0)}
 <div class="container">
 
 <header>
-<h1>Agenda Pro Max</h1>
-<div id="clock"></div>
+  <h1>Agenda Pro Max</h1>
+  <div id="clock"></div>
 </header>
 
 <div class="command">
-<input id="title" placeholder="Nova tarefa…">
-<input type="datetime-local" id="date">
-<button onclick="add()">Adicionar</button>
+  <input id="title" placeholder="Nova tarefa…" aria-label="Título da nova tarefa">
+  <input type="datetime-local" id="date" aria-label="Data e hora da nova tarefa">
+  <button id="add-btn">Adicionar</button>
 </div>
 
 <div class="search">
-<input id="search" placeholder="Buscar tarefas (⌘K style)" oninput="render()">
+  <input id="search" placeholder="Buscar tarefas (⌘K / Ctrl+K)" oninput="render()">
 </div>
 
 <div class="section">
-<h2>📌 Suas tarefas</h2>
-<div class="grid" id="grid"></div>
+  <h2>📌 Suas tarefas</h2>
+  <div class="grid" id="grid"></div>
 </div>
 
 </div>
 
 <script>
-let tasks=JSON.parse(localStorage.getItem("apple_notion"))||[];
+let tasks = JSON.parse(localStorage.getItem("apple_notion")) || [];
 
 function add(){
-const t=title.value;
-const d=date.value;
-if(!t||!d)return toast("Preencha tudo");
-tasks.push({id:Date.now(),title:t,desc:"Clique para editar",date:d});
-save();
-title.value="";
+  const t = title.value.trim();
+  const d = date.value;
+  if (!t){
+    return toast("Digite um título para a tarefa");
+  }
+  if (!d){
+    return toast("Escolha uma data e hora");
+  }
+  tasks.push({
+    id: Date.now(),
+    title: t,
+    desc: "Descrição da tarefa…",
+    date: d
+  });
+  save();
+  title.value = "";
+  date.value = "";
+  title.focus();
 }
 
 function save(){
-localStorage.setItem("apple_notion",JSON.stringify(tasks));
-render();
+  localStorage.setItem("apple_notion", JSON.stringify(tasks));
+  render();
 }
 
 function render(){
-const g=document.getElementById("grid");
-const s=document.getElementById("search").value.toLowerCase();
-g.innerHTML="";
-tasks.filter(t=>t.title.toLowerCase().includes(s)).forEach(t=>{
-const c=document.createElement("div");
-c.className="card";
-c.onclick=()=>focus(c);
-c.innerHTML=`
-<h3 contenteditable onblur="edit(${t.id},'title',this.innerText)">${t.title}</h3>
-<p contenteditable onblur="edit(${t.id},'desc',this.innerText)">${t.desc}</p>
-<div class="footer">
-<span>${new Date(t.date).toLocaleString("pt-BR")}</span>
-<div class="actions">
-<button onclick="del(${t.id})">Excluir</button>
-</div>
-</div>`;
-g.appendChild(c);
-});
+  const g = document.getElementById("grid");
+  const s = document.getElementById("search").value.toLowerCase();
+  g.innerHTML = "";
+
+  tasks
+    .slice()
+    .sort((a,b)=> new Date(a.date) - new Date(b.date))
+    .filter(t=> t.title.toLowerCase().includes(s))
+    .forEach(t=>{
+      const c = document.createElement("div");
+      c.className = "card";
+      c.addEventListener("click", () => focusCard(c));
+
+      const h3 = document.createElement("h3");
+      h3.contentEditable = "true";
+      h3.textContent = t.title;
+      h3.addEventListener("blur", () => edit(t.id,"title",h3.innerText));
+
+      const p = document.createElement("p");
+      p.contentEditable = "true";
+      p.textContent = t.desc;
+      p.addEventListener("blur", () => edit(t.id,"desc",p.innerText));
+
+      const footer = document.createElement("div");
+      footer.className = "footer";
+
+      const spanDate = document.createElement("span");
+      spanDate.textContent = new Date(t.date).toLocaleString("pt-BR");
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Excluir";
+      delBtn.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        del(t.id);
+      });
+
+      actions.appendChild(delBtn);
+      footer.appendChild(spanDate);
+      footer.appendChild(actions);
+
+      c.appendChild(h3);
+      c.appendChild(p);
+      c.appendChild(footer);
+
+      g.appendChild(c);
+    });
 }
 
-function focus(el){
-document.querySelectorAll(".card").forEach(c=>c.classList.remove("focus"));
-el.classList.add("focus");
+function focusCard(el){
+  document.querySelectorAll(".card").forEach(c=>c.classList.remove("focus"));
+  el.classList.add("focus");
 }
 
 function edit(id,f,v){
-tasks.find(t=>t.id===id)[f]=v;
-save();
+  const task = tasks.find(t=>t.id===id);
+  if (!task) return;
+  task[f] = v;
+  save();
 }
 
 function del(id){
-tasks=tasks.filter(t=>t.id!==id);
-save();
+  tasks = tasks.filter(t=>t.id!==id);
+  save();
 }
 
 function toast(m){
-const t=document.getElementById("toast");
-t.innerText=m;
-t.style.display="block";
-setTimeout(()=>t.style.display="none",3500);
+  const t = document.getElementById("toast");
+  t.innerText = m;
+  t.style.display = "block";
+  setTimeout(()=>t.style.display="none",3500);
 }
 
+// Relógio
 setInterval(()=>{
-clock.innerText=new Date().toLocaleTimeString("pt-BR");
+  clock.innerText = new Date().toLocaleTimeString("pt-BR");
 },1000);
 
-render();
+// Atalho ⌘K / Ctrl+K para foco na busca
+document.addEventListener("keydown", e => {
+  const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+  if ((isMac && e.metaKey && e.key.toLowerCase()==="k") ||
+      (!isMac && e.ctrlKey && e.key.toLowerCase()==="k")) {
+    e.preventDefault();
+    const search = document.getElementById("search");
+    search.focus();
+    search.select();
+  }
+});
+
+// Enter no botão adicionar
+document.getElementById("add-btn").addEventListener("click", add);
+document.addEventListener("keydown", e=>{
+  if (e.key === "Enter" && document.activeElement === title){
+    add();
+  }
+});
+
+// Foco inicial no título
+window.addEventListener("load", () => {
+  title.focus();
+  render();
+});
 </script>
 
 </body>
