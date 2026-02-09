@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Planejer | Mobile OS 2026</title>
+    <title>Planejer Pro | Mobile Fix 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --bg: #020205;
-            --surface: rgba(18, 18, 24, 0.95);
+            --surface: rgba(18, 18, 24, 0.98);
             --primary: #00f2ff;
             --secondary: #7000ff;
-            --glass: rgba(255, 255, 255, 0.03);
             --text-main: #ffffff;
             --text-dim: #9494a3;
         }
 
-        /* Reset e Base Mobile */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -26,130 +24,90 @@
             min-height: 100vh;
             background-image: radial-gradient(circle at 50% -20%, #1a1a2e, #020205);
             overflow-x: hidden;
-            padding-bottom: env(safe-area-inset-bottom); /* Suporte para iPhone notch */
         }
 
         .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
 
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5px 25px;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px 25px; }
         .brand h1 { font-weight: 800; font-size: 1.8rem; letter-spacing: -1.5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        #clock { color: var(--primary); font-weight: 600; font-size: 0.85rem; opacity: 0.8; }
 
-        /* Painel de Criação Otimizado para Toque */
+        /* Painel de Criação */
         .creator-panel {
             background: var(--surface);
             border-radius: 28px; padding: 20px;
             border: 1px solid rgba(255,255,255,0.08);
-            margin-bottom: 35px;
-            display: flex; flex-direction: column; gap: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
+            display: flex; flex-direction: column; gap: 12px;
         }
 
-        .input-box { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; padding-left: 5px; }
-        
         input, textarea {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
-            border-radius: 18px;
-            color: #fff;
-            outline: none;
-            font-size: 16px; /* Impede zoom automático no iOS */
-            width: 100%;
+            padding: 14px; border-radius: 15px;
+            color: #fff; font-size: 16px; width: 100%; outline: none;
         }
-        textarea { height: 100px; }
-        input:focus { border-color: var(--primary); background: rgba(255,255,255,0.1); }
 
-        /* Palette Mobile */
-        .color-palette { display: flex; gap: 15px; padding: 5px; justify-content: flex-start; }
-        .color-opt {
-            width: 38px; height: 38px; border-radius: 50%;
-            cursor: pointer; border: 3px solid transparent;
-            transition: 0.3s;
-        }
-        .color-opt.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 15px currentColor; }
+        .color-palette { display: flex; gap: 12px; padding: 5px; }
+        .color-opt { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
+        .color-opt.selected { border-color: #fff; box-shadow: 0 0 10px currentColor; }
 
         .btn-add {
-            background: var(--primary); color: #000;
-            border: none; padding: 18px; border-radius: 20px;
-            font-weight: 800; cursor: pointer;
-            font-size: 1rem; text-transform: uppercase;
-            margin-top: 5px;
-            transition: 0.2s;
+            background: var(--primary); color: #000; border: none; padding: 16px;
+            border-radius: 15px; font-weight: 800; text-transform: uppercase;
         }
-        .btn-add:active { transform: scale(0.96); opacity: 0.9; }
 
-        /* Kanban Board - Mobile Horizontal Scroll */
+        /* Board Kanban Mobile-Snap */
         .board {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 20px;
-            -webkit-overflow-scrolling: touch;
+            display: flex; gap: 15px; overflow-x: auto;
+            scroll-snap-type: x mandatory; padding-bottom: 20px;
         }
-
-        /* Esconder Scrollbar */
         .board::-webkit-scrollbar { display: none; }
 
         .column {
             background: rgba(255,255,255,0.02);
-            border-radius: 28px; padding: 15px;
-            border: 1px solid rgba(255,255,255,0.03);
-            min-width: 85vw; /* Largura focada no mobile */
-            scroll-snap-align: center;
+            border-radius: 25px; padding: 15px;
+            min-width: 85vw; scroll-snap-align: center;
             min-height: 400px;
         }
-        
+
         .column-header {
-            font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
-            color: var(--primary); letter-spacing: 1.5px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 10px;
+            font-size: 0.8rem; font-weight: 800; color: var(--primary);
+            text-transform: uppercase; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* Card Otimizado para Toque */
+        /* Card Corrigido */
         .card {
             background: var(--surface);
-            border-radius: 22px; padding: 18px;
+            border-radius: 20px; padding: 18px;
             border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease-out;
         }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } }
+
         .card::before {
-            content: ''; position: absolute; top:0; left:0; width:6px; height:100%;
-            background: var(--c); border-radius: 22px 0 0 22px;
+            content: ''; position: absolute; top:0; left:0; width:5px; height:100%;
+            background: var(--c); border-radius: 20px 0 0 20px;
         }
-        
-        .card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
-        .card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 15px; overflow-wrap: break-word; }
+
+        .card h3 { font-size: 1rem; margin-bottom: 5px; }
+        .card p { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
 
         .card-meta {
-            padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);
             display: flex; justify-content: space-between; align-items: center;
+            padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .meta-time { font-size: 0.75rem; color: var(--primary); font-weight: 700; }
 
-        .act-btn { padding: 10px; color: #555; font-size: 1.2rem; }
+        .move-actions { display: flex; gap: 8px; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
+        .act-btn { color: var(--text-dim); font-size: 1.1rem; padding: 5px; }
         .act-btn.active { color: var(--primary); }
-
-        /* Indicador de Swipe para Mobile */
-        .swipe-hint {
-            text-align: center; font-size: 0.65rem; color: var(--text-dim);
-            margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
-            display: block;
-        }
+        .move-icon { color: var(--primary); font-size: 0.9rem; }
 
         @media (min-width: 1024px) {
-            .column { min-width: 350px; scroll-snap-align: unset; }
-            .board { overflow-x: visible; justify-content: space-between; }
-            .swipe-hint { display: none; }
-            .creator-panel { display: grid; grid-template-columns: 1fr 1fr; }
-            .full-width { grid-column: span 2; }
+            .column { min-width: 33%; }
+            .board { overflow-x: hidden; }
         }
     </style>
 </head>
@@ -162,51 +120,33 @@
     </header>
 
     <div class="creator-panel">
-        <div class="input-box">
-            <label>Título</label>
-            <input type="text" id="taskTitle" placeholder="O que vamos fazer?">
+        <input type="text" id="taskTitle" placeholder="Título do plano">
+        <input type="datetime-local" id="taskDate">
+        <textarea id="taskDesc" placeholder="Descrição rápida..."></textarea>
+        <div class="color-palette">
+            <div class="color-opt selected" style="background: #00f2ff;" onclick="selectColor(this, '#00f2ff')"></div>
+            <div class="color-opt" style="background: #7000ff;" onclick="selectColor(this, '#7000ff')"></div>
+            <div class="color-opt" style="background: #ff00c8;" onclick="selectColor(this, '#ff00c8')"></div>
+            <div class="color-opt" style="background: #00ff88;" onclick="selectColor(this, '#00ff88')"></div>
         </div>
-        
-        <div class="input-box">
-            <label>Horário</label>
-            <input type="datetime-local" id="taskDate">
-        </div>
-
-        <div class="input-box full-width">
-            <label>Descrição</label>
-            <textarea id="taskDesc" placeholder="Toque para escrever os detalhes..."></textarea>
-        </div>
-
-        <div class="input-box">
-            <label>Prioridade</label>
-            <div class="color-palette">
-                <div class="color-opt selected" style="background: #00f2ff;" onclick="selectColor(this, '#00f2ff')"></div>
-                <div class="color-opt" style="background: #7000ff;" onclick="selectColor(this, '#7000ff')"></div>
-                <div class="color-opt" style="background: #ff00c8;" onclick="selectColor(this, '#ff00c8')"></div>
-                <div class="color-opt" style="background: #00ff88;" onclick="selectColor(this, '#00ff88')"></div>
-            </div>
-        </div>
-
-        <button class="btn-add" onclick="addTask()">Salvar no Planejer</button>
+        <button class="btn-add" onclick="addTask()">Criar no Planejer</button>
     </div>
-
-    <span class="swipe-hint"><i class="fa-solid fa-arrows-left-right"></i> Deslize para ver as colunas</span>
 
     <div class="board">
         <div class="column" id="col-hoje">
-            <div class="column-header"><i class="fa-solid fa-calendar-day"></i> Hoje</div>
+            <div class="column-header"><i class="fa-solid fa-circle"></i> Hoje</div>
         </div>
         <div class="column" id="col-amanha">
-            <div class="column-header"><i class="fa-solid fa-chevron-right"></i> Próximos</div>
+            <div class="column-header"><i class="fa-solid fa-arrow-right"></i> Próximos</div>
         </div>
-        <div class="column" id="col-concluido">
-            <div class="column-header"><i class="fa-solid fa-check-circle"></i> Feito</div>
+        <div class="column" id="col-feito">
+            <div class="column-header"><i class="fa-solid fa-check"></i> Feito</div>
         </div>
     </div>
 </div>
 
 <script>
-    let tasks = JSON.parse(localStorage.getItem('planejer_mobile_db')) || [];
+    let tasks = JSON.parse(localStorage.getItem('planejer_v3_db')) || [];
     let selectedColor = '#00f2ff';
 
     function selectColor(el, color) {
@@ -219,81 +159,82 @@
         const title = document.getElementById('taskTitle').value;
         const date = document.getElementById('taskDate').value;
         const desc = document.getElementById('taskDesc').value;
-
         if(!title || !date) return alert("Preencha o título e a data!");
 
-        const newTask = {
+        tasks.push({
             id: 'id-' + Date.now(),
-            title,
-            desc: desc || "Sem detalhes.",
-            date,
+            title, date, desc,
             color: selectedColor,
             column: 'col-hoje',
             locked: false
-        };
-
-        tasks.push(newTask);
-        saveAndRender();
-        
-        // Reset campos e feedback táctil simulado
+        });
+        save();
         document.getElementById('taskTitle').value = '';
         document.getElementById('taskDesc').value = '';
-        window.scrollTo({top: document.querySelector('.board').offsetTop - 20, behavior: 'smooth'});
     }
 
-    function saveAndRender() {
-        localStorage.setItem('planejer_mobile_db', JSON.stringify(tasks));
-        
+    // Função Principal para Mover o Card
+    function moveTask(id, nextCol) {
+        const task = tasks.find(t => t.id === id);
+        if(task.locked) return alert("Desbloqueie para mover!");
+        task.column = nextCol;
+        save();
+    }
+
+    function save() {
+        localStorage.setItem('planejer_v3_db', JSON.stringify(tasks));
+        render();
+    }
+
+    function render() {
         document.querySelectorAll('.column').forEach(col => {
-            const header = col.querySelector('.column-header');
-            col.innerHTML = '';
-            col.appendChild(header);
+            const h = col.querySelector('.column-header');
+            col.innerHTML = ''; col.appendChild(h);
         });
 
-        tasks.forEach(task => {
+        tasks.forEach(t => {
             const card = document.createElement('div');
-            card.className = `card ${task.locked ? 'locked' : ''}`;
-            card.id = task.id;
-            card.style.setProperty('--c', task.color);
-
-            const d = new Date(task.date);
-            const timeStr = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-            const dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'short'});
+            card.className = `card ${t.locked ? 'locked' : ''}`;
+            card.style.setProperty('--c', t.color);
+            
+            // Lógica de ícones de movimento baseada na coluna atual
+            let moveButtons = '';
+            if(t.column === 'col-hoje') moveButtons = `<i class="fa-solid fa-share move-icon" onclick="moveTask('${t.id}', 'col-amanha')"></i>`;
+            if(t.column === 'col-amanha') moveButtons = `
+                <i class="fa-solid fa-reply move-icon" onclick="moveTask('${t.id}', 'col-hoje')"></i>
+                <i class="fa-solid fa-check move-icon" style="margin-left:10px" onclick="moveTask('${t.id}', 'col-feito')"></i>`;
+            if(t.column === 'col-feito') moveButtons = `<i class="fa-solid fa-rotate-left move-icon" onclick="moveTask('${t.id}', 'col-amanha')"></i>`;
 
             card.innerHTML = `
-                <h3>${task.title}</h3>
-                <p>${task.desc}</p>
+                <h3>${t.title}</h3>
+                <p>${t.desc || '...'}</p>
                 <div class="card-meta">
-                    <div class="meta-time">${dateStr}, ${timeStr}</div>
-                    <div style="display:flex; gap:5px">
-                        <i class="fa-solid ${task.locked ? 'fa-lock' : 'fa-lock-open'} act-btn ${task.locked ? 'active' : ''}" 
-                           onclick="toggleLock('${task.id}')"></i>
-                        <i class="fa-solid fa-trash act-btn" onclick="removeTask('${task.id}')"></i>
+                    <div class="move-actions">${moveButtons}</div>
+                    <div style="display:flex; gap:10px">
+                        <i class="fa-solid ${t.locked ? 'fa-lock' : 'fa-lock-open'} act-btn ${t.locked ? 'active' : ''}" onclick="toggleLock('${t.id}')"></i>
+                        <i class="fa-solid fa-trash-can act-btn" onclick="removeTask('${t.id}')"></i>
                     </div>
                 </div>
             `;
-            document.getElementById(task.column).appendChild(card);
+            document.getElementById(t.column).appendChild(card);
         });
     }
 
     function toggleLock(id) {
-        const task = tasks.find(t => t.id === id);
-        task.locked = !task.locked;
-        saveAndRender();
+        const t = tasks.find(x => x.id === id);
+        t.locked = !t.locked;
+        save();
     }
 
     function removeTask(id) {
-        const task = tasks.find(t => t.id === id);
-        if(task.locked) return;
-        tasks = tasks.filter(t => t.id !== id);
-        saveAndRender();
+        const t = tasks.find(x => x.id === id);
+        if(t.locked) return;
+        tasks = tasks.filter(x => x.id !== id);
+        save();
     }
 
-    setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR');
-    }, 1000);
-
-    saveAndRender();
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
+    render();
 </script>
 </body>
 </html>
