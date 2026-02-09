@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda OS 2026 | Gestão Total</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f1015;
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent: #7000ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+            background: radial-gradient(circle at top right, #1a1b25, #0f1015);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 2px; color: var(--accent); }
+
+        /* Painel de Criação */
+        .creator-bar {
+            background: var(--glass);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 0.5fr auto;
+            gap: 15px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+
+        input, select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+        }
+
+        button.add-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        button.add-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(112, 0, 255, 0.4); }
+
+        /* Grid de Tarefas */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .task-card {
+            background: var(--glass);
+            border-left: 8px solid var(--accent);
+            padding: 20px;
+            border-radius: 15px;
+            position: relative;
+            transition: 0.3s;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .task-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+
+        .task-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        
+        .task-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; outline: none; }
+        
+        .task-time { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+
+        .task-desc { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.4; outline: none; }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .btn-icon { cursor: pointer; opacity: 0.6; transition: 0.3s; }
+        .btn-icon:hover { opacity: 1; }
+        .delete-btn { color: #ff4b4b; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* Notificação */
+        #notification-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo"><i class="fa-solid fa-calendar-check"></i> AGENDA 2026</div>
+            <div id="relogio">00:00:00</div>
+        </header>
+
+        <div class="creator-bar">
+            <input type="text" id="taskInput" placeholder="O que vamos fazer?">
+            <input type="datetime-local" id="dateInput">
+            <select id="colorInput">
+                <option value="#7000ff">Roxo (Padrão)</option>
+                <option value="#00ffa3">Verde (Suave)</option>
+                <option value="#ff4b4b">Vermelho (Urgente)</option>
+                <option value="#00d2ff">Azul (Trabalho)</option>
+                <option value="#ff9f00">Laranja (Estudos)</option>
+            </select>
+            <button class="add-btn" onclick="addTask()">AGENDAR</button>
+        </div>
+
+        <div class="agenda-grid" id="agendaGrid">
+            </div>
+    </div>
+
+    <div id="notification-toast">Tarefa agendada com sucesso!</div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('agenda_tasks')) || [];
+
+        function renderTasks() {
+            const grid = document.getElementById('agendaGrid');
+            grid.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const card = document.createElement('div');
+                card.className = 'task-card';
+                card.style.borderLeftColor = task.color;
+                
+                card.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-time"><i class="fa-regular fa-clock"></i> ${formatDate(task.date)}</div>
+                        <div class="btn-icon delete-btn" onclick="deleteTask(${index})"><i class="fa-solid fa-trash"></i></div>
+                    </div>
+                    <div class="task-title" contenteditable="true" onblur="editTask(${index}, 'title', this.innerText)">${task.title}</div>
+                    <div class="task-desc" contenteditable="true" onblur="editTask(${index}, 'desc', this.innerText)">${task.desc || 'Clique para adicionar uma descrição...'}</div>
+                    <div class="controls">
+                         <input type="color" value="${task.color}" onchange="editTask(${index}, 'color', this.value)" style="width:30px; height:30px; padding:0; border:none;">
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            save();
+        }
+
+        function addTask() {
+            const title = document.getElementById('taskInput').value;
+            const date = document.getElementById('dateInput').value;
+            const color = document.getElementById('colorInput').value;
+
+            if (!title || !date) {
+                showToast("Por favor, preencha o título e a data!");
+                return;
+            }
+
+            const newTask = {
+                title,
+                date,
+                color,
+                desc: ''
+            };
+
+            tasks.push(newTask);
+            document.getElementById('taskInput').value = '';
+            showToast("Atividade adicionada à sua demanda!");
+            renderTasks();
+        }
+
+        function editTask(index, field, value) {
+            tasks[index][field] = value;
+            if(field === 'color') renderTasks(); // Re-renderiza para aplicar cor na borda
+            save();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function save() {
+            localStorage.setItem('agenda_tasks', JSON.stringify(tasks));
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('notification-toast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        // Relógio em tempo real
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('relogio').innerText = now.toLocaleTimeString('pt-BR');
+            
+            // Lógica simples de "Notificação de Demanda"
+            tasks.forEach(t => {
+                const taskTime = new Date(t.date).getTime();
+                const diff = taskTime - now.getTime();
+                if(diff > 0 && diff < 1000) { // Se a hora é agora
+                    showToast(`🚨 AGORA: ${t.title}`);
+                }
+            });
+        }, 1000);
+
+        renderTasks();
+    </script>
+</body>
+</html>
