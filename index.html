@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Planejer Pro | Mobile Fix 2026</title>
+    <title>Planejer | Cloud OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -11,230 +11,202 @@
             --bg: #020205;
             --surface: rgba(18, 18, 24, 0.98);
             --primary: #00f2ff;
-            --secondary: #7000ff;
-            --text-main: #ffffff;
             --text-dim: #9494a3;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: #fff; min-height: 100vh; overflow-x: hidden; }
+
+        /* Login Screen */
+        #auth-container {
+            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .auth-card {
+            background: var(--surface); width: 100%; max-width: 400px;
+            padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .auth-input { 
+            width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none;
+        }
+        .btn-auth {
+            width: 100%; padding: 15px; border-radius: 12px; background: var(--primary);
+            border: none; font-weight: 800; cursor: pointer;
+        }
+
+        /* App Screen */
+        #app-container { display: none; padding: 15px; max-width: 1200px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
         
-        body {
-            background: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            background-image: radial-gradient(circle at 50% -20%, #1a1a2e, #020205);
-            overflow-x: hidden;
-        }
-
-        .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px 25px; }
-        .brand h1 { font-weight: 800; font-size: 1.8rem; letter-spacing: -1.5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* Painel de Criação */
         .creator-panel {
-            background: var(--surface);
-            border-radius: 28px; padding: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-            margin-bottom: 30px;
-            display: flex; flex-direction: column; gap: 12px;
+            background: var(--surface); border-radius: 25px; padding: 20px; 
+            margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.08);
         }
 
-        input, textarea {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 14px; border-radius: 15px;
-            color: #fff; font-size: 16px; width: 100%; outline: none;
+        .board { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; }
+        .column { background: rgba(255,255,255,0.02); border-radius: 25px; padding: 15px; min-width: 85vw; scroll-snap-align: center; min-height: 450px; }
+        .col-title { color: var(--primary); font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+
+        .card { 
+            background: var(--surface); border-radius: 20px; padding: 18px; 
+            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); 
+            position: relative; animation: fadeIn 0.4s ease;
         }
-
-        .color-palette { display: flex; gap: 12px; padding: 5px; }
-        .color-opt { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
-        .color-opt.selected { border-color: #fff; box-shadow: 0 0 10px currentColor; }
-
-        .btn-add {
-            background: var(--primary); color: #000; border: none; padding: 16px;
-            border-radius: 15px; font-weight: 800; text-transform: uppercase;
-        }
-
-        /* Board Kanban Mobile-Snap */
-        .board {
-            display: flex; gap: 15px; overflow-x: auto;
-            scroll-snap-type: x mandatory; padding-bottom: 20px;
-        }
-        .board::-webkit-scrollbar { display: none; }
-
-        .column {
-            background: rgba(255,255,255,0.02);
-            border-radius: 25px; padding: 15px;
-            min-width: 85vw; scroll-snap-align: center;
-            min-height: 400px;
-        }
-
-        .column-header {
-            font-size: 0.8rem; font-weight: 800; color: var(--primary);
-            text-transform: uppercase; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        /* Card Corrigido */
-        .card {
-            background: var(--surface);
-            border-radius: 20px; padding: 18px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 12px;
-            position: relative;
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } }
-
-        .card::before {
-            content: ''; position: absolute; top:0; left:0; width:5px; height:100%;
-            background: var(--c); border-radius: 20px 0 0 20px;
-        }
-
-        .card h3 { font-size: 1rem; margin-bottom: 5px; }
-        .card p { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
-
-        .card-meta {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .move-actions { display: flex; gap: 8px; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
-        .act-btn { color: var(--text-dim); font-size: 1.1rem; padding: 5px; }
-        .act-btn.active { color: var(--primary); }
-        .move-icon { color: var(--primary); font-size: 0.9rem; }
-
+        .card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px; background: var(--primary); border-radius: 20px 0 0 20px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+        
         @media (min-width: 1024px) {
-            .column { min-width: 33%; }
-            .board { overflow-x: hidden; }
+            .column { min-width: 32%; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="brand"><h1>Planejer</h1></div>
-        <div id="clock">00:00:00</div>
-    </header>
-
-    <div class="creator-panel">
-        <input type="text" id="taskTitle" placeholder="Título do plano">
-        <input type="datetime-local" id="taskDate">
-        <textarea id="taskDesc" placeholder="Descrição rápida..."></textarea>
-        <div class="color-palette">
-            <div class="color-opt selected" style="background: #00f2ff;" onclick="selectColor(this, '#00f2ff')"></div>
-            <div class="color-opt" style="background: #7000ff;" onclick="selectColor(this, '#7000ff')"></div>
-            <div class="color-opt" style="background: #ff00c8;" onclick="selectColor(this, '#ff00c8')"></div>
-            <div class="color-opt" style="background: #00ff88;" onclick="selectColor(this, '#00ff88')"></div>
+    <div id="auth-container">
+        <div class="auth-card" id="login-form">
+            <h2 style="margin-bottom: 20px;">Planejer</h2>
+            <input type="email" id="email" class="auth-input" placeholder="E-mail">
+            <input type="password" id="password" class="auth-input" placeholder="Senha">
+            <button class="btn-auth" onclick="handleAuth()">Entrar</button>
+            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Criar nova conta</p>
         </div>
-        <button class="btn-add" onclick="addTask()">Criar no Planejer</button>
-    </div>
-
-    <div class="board">
-        <div class="column" id="col-hoje">
-            <div class="column-header"><i class="fa-solid fa-circle"></i> Hoje</div>
-        </div>
-        <div class="column" id="col-amanha">
-            <div class="column-header"><i class="fa-solid fa-arrow-right"></i> Próximos</div>
-        </div>
-        <div class="column" id="col-feito">
-            <div class="column-header"><i class="fa-solid fa-check"></i> Feito</div>
+        <div class="auth-card" id="register-form" style="display: none;">
+            <h2 style="margin-bottom: 20px;">Nova Conta</h2>
+            <input type="text" id="reg-nome" class="auth-input" placeholder="Nome Completo">
+            <input type="text" id="reg-apelido" class="auth-input" placeholder="Apelido">
+            <input type="email" id="reg-email" class="auth-input" placeholder="E-mail">
+            <input type="password" id="reg-password" class="auth-input" placeholder="Senha">
+            <button class="btn-auth" onclick="handleRegister()">Cadastrar</button>
+            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Voltar ao Login</p>
         </div>
     </div>
-</div>
 
-<script>
-    let tasks = JSON.parse(localStorage.getItem('planejer_v3_db')) || [];
-    let selectedColor = '#00f2ff';
+    <div id="app-container">
+        <header>
+            <div>Olá, <span id="user-display-name" style="color: var(--primary); font-weight: 700;">...</span></div>
+            <button onclick="logout()" style="background:none; border:none; color: #ff4444; font-size: 1.2rem;"><i class="fa-solid fa-power-off"></i></button>
+        </header>
 
-    function selectColor(el, color) {
-        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedColor = color;
-    }
+        <div class="creator-panel">
+            <input type="text" id="taskTitle" placeholder="Título da tarefa" class="auth-input">
+            <textarea id="taskDesc" placeholder="Descrição rápida..." class="auth-input" style="height: 80px; resize: none;"></textarea>
+            <button class="btn-auth" onclick="addTask()">Salvar no Banco Cloud</button>
+        </div>
 
-    function addTask() {
-        const title = document.getElementById('taskTitle').value;
-        const date = document.getElementById('taskDate').value;
-        const desc = document.getElementById('taskDesc').value;
-        if(!title || !date) return alert("Preencha o título e a data!");
+        <div class="board">
+            <div class="column" id="col-hoje"><div class="col-title">Hoje</div></div>
+            <div class="column" id="col-feito"><div class="col-title">Concluído</div></div>
+        </div>
+    </div>
 
-        tasks.push({
-            id: 'id-' + Date.now(),
-            title, date, desc,
-            color: selectedColor,
-            column: 'col-hoje',
-            locked: false
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOeI8GlFZ6vj8yGML3AhUkNIFpQFPJ-kQ",
+            authDomain: "planejer.firebaseapp.com",
+            projectId: "planejer",
+            storageBucket: "planejer.firebasestorage.app",
+            messagingSenderId: "338141836587",
+            appId: "1:338141836587:web:1a6ab2bac7f8ac9dc6416e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Funções globais para o HTML
+        window.toggleAuth = () => {
+            const login = document.getElementById('login-form');
+            const reg = document.getElementById('register-form');
+            login.style.display = login.style.display === 'none' ? 'block' : 'none';
+            reg.style.display = reg.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.handleRegister = async () => {
+            const nome = document.getElementById('reg-nome').value;
+            const apelido = document.getElementById('reg-apelido').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, pass);
+                await setDoc(doc(db, "users", res.user.uid), { nome, apelido, email });
+            } catch (e) { alert("Erro ao cadastrar: " + e.message); }
+        }
+
+        window.handleAuth = () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Erro: " + e.message));
+        }
+
+        window.logout = () => signOut(auth);
+
+        window.addTask = async () => {
+            const title = document.getElementById('taskTitle').value;
+            const desc = document.getElementById('taskDesc').value;
+            if(!title) return;
+
+            await addDoc(collection(db, "tasks"), {
+                uid: auth.currentUser.uid,
+                title, desc,
+                column: 'col-hoje',
+                createdAt: Date.now()
+            });
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDesc').value = '';
+        }
+
+        window.deleteTask = async (id) => {
+            await deleteDoc(doc(db, "tasks", id));
+        }
+
+        // Monitoramento de Estado
+        onAuthStateChanged(auth, async (user) => {
+            const authDiv = document.getElementById('auth-container');
+            const appDiv = document.getElementById('app-container');
+
+            if (user) {
+                authDiv.style.display = 'none';
+                appDiv.style.display = 'block';
+                const userSnap = await getDoc(doc(db, "users", user.uid));
+                document.getElementById('user-display-name').innerText = userSnap.data()?.apelido || "Usuário";
+                
+                // Escuta as tarefas em tempo real
+                const q = query(collection(db, "tasks"), where("uid", "==", user.uid));
+                onSnapshot(q, (snap) => {
+                    renderTasks(snap);
+                });
+            } else {
+                authDiv.style.display = 'flex';
+                appDiv.style.display = 'none';
+            }
         });
-        save();
-        document.getElementById('taskTitle').value = '';
-        document.getElementById('taskDesc').value = '';
-    }
 
-    // Função Principal para Mover o Card
-    function moveTask(id, nextCol) {
-        const task = tasks.find(t => t.id === id);
-        if(task.locked) return alert("Desbloqueie para mover!");
-        task.column = nextCol;
-        save();
-    }
+        function renderTasks(snapshot) {
+            document.getElementById('col-hoje').innerHTML = '<div class="col-title">Hoje</div>';
+            document.getElementById('col-feito').innerHTML = '<div class="col-title">Concluído</div>';
 
-    function save() {
-        localStorage.setItem('planejer_v3_db', JSON.stringify(tasks));
-        render();
-    }
-
-    function render() {
-        document.querySelectorAll('.column').forEach(col => {
-            const h = col.querySelector('.column-header');
-            col.innerHTML = ''; col.appendChild(h);
-        });
-
-        tasks.forEach(t => {
-            const card = document.createElement('div');
-            card.className = `card ${t.locked ? 'locked' : ''}`;
-            card.style.setProperty('--c', t.color);
-            
-            // Lógica de ícones de movimento baseada na coluna atual
-            let moveButtons = '';
-            if(t.column === 'col-hoje') moveButtons = `<i class="fa-solid fa-share move-icon" onclick="moveTask('${t.id}', 'col-amanha')"></i>`;
-            if(t.column === 'col-amanha') moveButtons = `
-                <i class="fa-solid fa-reply move-icon" onclick="moveTask('${t.id}', 'col-hoje')"></i>
-                <i class="fa-solid fa-check move-icon" style="margin-left:10px" onclick="moveTask('${t.id}', 'col-feito')"></i>`;
-            if(t.column === 'col-feito') moveButtons = `<i class="fa-solid fa-rotate-left move-icon" onclick="moveTask('${t.id}', 'col-amanha')"></i>`;
-
-            card.innerHTML = `
-                <h3>${t.title}</h3>
-                <p>${t.desc || '...'}</p>
-                <div class="card-meta">
-                    <div class="move-actions">${moveButtons}</div>
-                    <div style="display:flex; gap:10px">
-                        <i class="fa-solid ${t.locked ? 'fa-lock' : 'fa-lock-open'} act-btn ${t.locked ? 'active' : ''}" onclick="toggleLock('${t.id}')"></i>
-                        <i class="fa-solid fa-trash-can act-btn" onclick="removeTask('${t.id}')"></i>
+            snapshot.forEach(doc => {
+                const t = doc.data();
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>${t.title}</h3>
+                    <p style="color:var(--text-dim); font-size:0.85rem; margin-top:5px;">${t.desc}</p>
+                    <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+                        <i class="fa-solid fa-trash-can" style="color:#ff4444; cursor:pointer" onclick="deleteTask('${doc.id}')"></i>
                     </div>
-                </div>
-            `;
-            document.getElementById(t.column).appendChild(card);
-        });
-    }
-
-    function toggleLock(id) {
-        const t = tasks.find(x => x.id === id);
-        t.locked = !t.locked;
-        save();
-    }
-
-    function removeTask(id) {
-        const t = tasks.find(x => x.id === id);
-        if(t.locked) return;
-        tasks = tasks.filter(x => x.id !== id);
-        save();
-    }
-
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
-    render();
-</script>
+                `;
+                document.getElementById(t.column).appendChild(card);
+            });
+        }
+    </script>
 </body>
 </html>
