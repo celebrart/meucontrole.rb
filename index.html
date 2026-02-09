@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Planejer | Cloud OS</title>
+    <title>Planejer Pro | Cloud 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -11,202 +11,328 @@
             --bg: #020205;
             --surface: rgba(18, 18, 24, 0.98);
             --primary: #00f2ff;
+            --secondary: #7000ff;
+            --text-main: #ffffff;
             --text-dim: #9494a3;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: #fff; min-height: 100vh; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% -20%, #1a1a2e, #020205);
+            overflow-x: hidden;
+        }
 
-        /* Login Screen */
+        /* Telas de Autenticação */
         #auth-container {
             position: fixed; inset: 0; background: var(--bg); z-index: 9999;
             display: flex; align-items: center; justify-content: center; padding: 20px;
         }
         .auth-card {
             background: var(--surface); width: 100%; max-width: 400px;
-            padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
+            padding: 30px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.5);
         }
         .auth-input { 
-            width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
+            width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 15px;
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none;
         }
-        .btn-auth {
-            width: 100%; padding: 15px; border-radius: 12px; background: var(--primary);
-            border: none; font-weight: 800; cursor: pointer;
+
+        /* Conteúdo do App (Escondido por padrão) */
+        #app-content { display: none; }
+
+        .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px 25px; }
+        .brand h1 { font-weight: 800; font-size: 1.8rem; letter-spacing: -1.5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .creator-panel {
+            background: var(--surface);
+            border-radius: 28px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 30px;
+            display: flex; flex-direction: column; gap: 12px;
         }
 
-        /* App Screen */
-        #app-container { display: none; padding: 15px; max-width: 1200px; margin: 0 auto; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
-        
-        .creator-panel {
-            background: var(--surface); border-radius: 25px; padding: 20px; 
-            margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.08);
+        input, textarea {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px; border-radius: 15px;
+            color: #fff; font-size: 16px; width: 100%; outline: none;
+        }
+
+        .color-palette { display: flex; gap: 12px; padding: 5px; }
+        .color-opt { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
+        .color-opt.selected { border-color: #fff; box-shadow: 0 0 10px currentColor; transform: scale(1.1); }
+
+        .btn-add {
+            background: var(--primary); color: #000; border: none; padding: 16px;
+            border-radius: 15px; font-weight: 800; text-transform: uppercase; cursor: pointer;
         }
 
         .board { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; }
-        .column { background: rgba(255,255,255,0.02); border-radius: 25px; padding: 15px; min-width: 85vw; scroll-snap-align: center; min-height: 450px; }
-        .col-title { color: var(--primary); font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+        .board::-webkit-scrollbar { display: none; }
 
-        .card { 
-            background: var(--surface); border-radius: 20px; padding: 18px; 
-            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); 
-            position: relative; animation: fadeIn 0.4s ease;
+        .column {
+            background: rgba(255,255,255,0.02);
+            border-radius: 25px; padding: 15px;
+            min-width: 85vw; scroll-snap-align: center;
+            min-height: 400px;
         }
-        .card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px; background: var(--primary); border-radius: 20px 0 0 20px; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
-        
+
+        .column-header {
+            font-size: 0.8rem; font-weight: 800; color: var(--primary);
+            text-transform: uppercase; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 20px; padding: 18px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 12px;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } }
+
+        .card::before {
+            content: ''; position: absolute; top:0; left:0; width:5px; height:100%;
+            background: var(--c); border-radius: 20px 0 0 20px;
+        }
+
+        .card h3 { font-size: 1rem; margin-bottom: 5px; color: #fff; }
+        .card p { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
+
+        .card-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .move-actions { display: flex; gap: 8px; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
+        .act-btn { color: var(--text-dim); font-size: 1.1rem; padding: 5px; cursor: pointer; }
+        .act-btn.active { color: var(--primary); }
+        .move-icon { color: var(--primary); font-size: 0.9rem; cursor: pointer; }
+
         @media (min-width: 1024px) {
             .column { min-width: 32%; }
+            .board { overflow-x: hidden; }
         }
     </style>
 </head>
 <body>
 
-    <div id="auth-container">
-        <div class="auth-card" id="login-form">
-            <h2 style="margin-bottom: 20px;">Planejer</h2>
-            <input type="email" id="email" class="auth-input" placeholder="E-mail">
-            <input type="password" id="password" class="auth-input" placeholder="Senha">
-            <button class="btn-auth" onclick="handleAuth()">Entrar</button>
-            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Criar nova conta</p>
-        </div>
-        <div class="auth-card" id="register-form" style="display: none;">
-            <h2 style="margin-bottom: 20px;">Nova Conta</h2>
-            <input type="text" id="reg-nome" class="auth-input" placeholder="Nome Completo">
-            <input type="text" id="reg-apelido" class="auth-input" placeholder="Apelido">
-            <input type="email" id="reg-email" class="auth-input" placeholder="E-mail">
-            <input type="password" id="reg-password" class="auth-input" placeholder="Senha">
-            <button class="btn-auth" onclick="handleRegister()">Cadastrar</button>
-            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Voltar ao Login</p>
-        </div>
+<div id="auth-container">
+    <div class="auth-card" id="login-form">
+        <h2 style="margin-bottom: 20px;">Planejer</h2>
+        <input type="email" id="email" class="auth-input" placeholder="E-mail">
+        <input type="password" id="password" class="auth-input" placeholder="Senha">
+        <button class="btn-add" style="width: 100%;" onclick="handleAuth()">Entrar</button>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Não tem conta? <b>Cadastre-se</b></p>
     </div>
 
-    <div id="app-container">
+    <div class="auth-card" id="register-form" style="display: none;">
+        <h2 style="margin-bottom: 20px;">Nova Conta</h2>
+        <input type="text" id="reg-nome" class="auth-input" placeholder="Nome Completo">
+        <input type="text" id="reg-apelido" class="auth-input" placeholder="Apelido">
+        <input type="email" id="reg-email" class="auth-input" placeholder="E-mail">
+        <input type="password" id="reg-password" class="auth-input" placeholder="Senha">
+        <button class="btn-add" style="width: 100%;" onclick="handleRegister()">Criar Conta</button>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Já tem conta? <b>Login</b></p>
+    </div>
+</div>
+
+<div id="app-content">
+    <div class="container">
         <header>
-            <div>Olá, <span id="user-display-name" style="color: var(--primary); font-weight: 700;">...</span></div>
-            <button onclick="logout()" style="background:none; border:none; color: #ff4444; font-size: 1.2rem;"><i class="fa-solid fa-power-off"></i></button>
+            <div class="brand"><h1>Planejer</h1></div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="user-name" style="font-size: 0.8rem; color: var(--primary);"></span>
+                <i class="fa-solid fa-right-from-bracket" style="cursor:pointer" onclick="logout()"></i>
+            </div>
         </header>
 
         <div class="creator-panel">
-            <input type="text" id="taskTitle" placeholder="Título da tarefa" class="auth-input">
-            <textarea id="taskDesc" placeholder="Descrição rápida..." class="auth-input" style="height: 80px; resize: none;"></textarea>
-            <button class="btn-auth" onclick="addTask()">Salvar no Banco Cloud</button>
+            <input type="text" id="taskTitle" placeholder="Título do plano">
+            <input type="datetime-local" id="taskDate">
+            <textarea id="taskDesc" placeholder="Descrição rápida..."></textarea>
+            <div class="color-palette">
+                <div class="color-opt selected" style="background: #00f2ff;" onclick="selectColor(this, '#00f2ff')"></div>
+                <div class="color-opt" style="background: #7000ff;" onclick="selectColor(this, '#7000ff')"></div>
+                <div class="color-opt" style="background: #ff00c8;" onclick="selectColor(this, '#ff00c8')"></div>
+                <div class="color-opt" style="background: #00ff88;" onclick="selectColor(this, '#00ff88')"></div>
+            </div>
+            <button class="btn-add" onclick="addTask()">Salvar no Cloud</button>
         </div>
 
         <div class="board">
-            <div class="column" id="col-hoje"><div class="col-title">Hoje</div></div>
-            <div class="column" id="col-feito"><div class="col-title">Concluído</div></div>
+            <div class="column" id="col-hoje">
+                <div class="column-header"><i class="fa-solid fa-circle"></i> Hoje</div>
+                <div class="task-list"></div>
+            </div>
+            <div class="column" id="col-amanha">
+                <div class="column-header"><i class="fa-solid fa-arrow-right"></i> Próximos</div>
+                <div class="task-list"></div>
+            </div>
+            <div class="column" id="col-feito">
+                <div class="column-header"><i class="fa-solid fa-check"></i> Feito</div>
+                <div class="task-list"></div>
+            </div>
         </div>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+<script type="module">
+    // IMPORTAÇÃO DO FIREBASE SDK v9
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCOeI8GlFZ6vj8yGML3AhUkNIFpQFPJ-kQ",
-            authDomain: "planejer.firebaseapp.com",
-            projectId: "planejer",
-            storageBucket: "planejer.firebasestorage.app",
-            messagingSenderId: "338141836587",
-            appId: "1:338141836587:web:1a6ab2bac7f8ac9dc6416e"
-        };
+    // CONFIGURAÇÃO USANDO SUAS CHAVES
+    const firebaseConfig = {
+        apiKey: "AIzaSyCOeI8GlFZ6vj8yGML3AhUkNIFpQFPJ-kQ",
+        authDomain: "planejer.firebaseapp.com",
+        projectId: "planejer",
+        storageBucket: "planejer.firebasestorage.app",
+        messagingSenderId: "338141836587",
+        appId: "1:338141836587:web:1a6ab2bac7f8ac9dc6416e"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        // Funções globais para o HTML
-        window.toggleAuth = () => {
-            const login = document.getElementById('login-form');
-            const reg = document.getElementById('register-form');
-            login.style.display = login.style.display === 'none' ? 'block' : 'none';
-            reg.style.display = reg.style.display === 'none' ? 'block' : 'none';
+    let selectedColor = '#00f2ff';
+
+    // AUTH FUNCTIONS
+    window.toggleAuth = () => {
+        const login = document.getElementById('login-form');
+        const reg = document.getElementById('register-form');
+        login.style.display = login.style.display === 'none' ? 'block' : 'none';
+        reg.style.display = reg.style.display === 'none' ? 'block' : 'none';
+    };
+
+    window.handleRegister = async () => {
+        const nome = document.getElementById('reg-nome').value;
+        const apelido = document.getElementById('reg-apelido').value;
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-password').value;
+
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, pass);
+            await setDoc(doc(db, "users", res.user.uid), { nome, apelido, email });
+        } catch (e) { alert("Erro ao cadastrar: " + e.message); }
+    };
+
+    window.handleAuth = () => {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Erro: " + e.message));
+    };
+
+    window.logout = () => signOut(auth);
+
+    // CORE LOGIC
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            
+            const userSnap = await getDoc(doc(db, "users", user.uid));
+            document.getElementById('user-name').innerText = userSnap.exists() ? userSnap.data().apelido : "Usuário";
+            
+            loadTasks(user.uid);
+        } else {
+            document.getElementById('auth-container').style.display = 'flex';
+            document.getElementById('app-content').style.display = 'none';
         }
+    });
 
-        window.handleRegister = async () => {
-            const nome = document.getElementById('reg-nome').value;
-            const apelido = document.getElementById('reg-apelido').value;
-            const email = document.getElementById('reg-email').value;
-            const pass = document.getElementById('reg-password').value;
+    window.selectColor = (el, color) => {
+        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedColor = color;
+    };
 
-            try {
-                const res = await createUserWithEmailAndPassword(auth, email, pass);
-                await setDoc(doc(db, "users", res.user.uid), { nome, apelido, email });
-            } catch (e) { alert("Erro ao cadastrar: " + e.message); }
-        }
+    window.addTask = async () => {
+        const title = document.getElementById('taskTitle').value;
+        const date = document.getElementById('taskDate').value;
+        const desc = document.getElementById('taskDesc').value;
 
-        window.handleAuth = () => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Erro: " + e.message));
-        }
+        if(!title || !date) return alert("Título e Data são obrigatórios!");
 
-        window.logout = () => signOut(auth);
-
-        window.addTask = async () => {
-            const title = document.getElementById('taskTitle').value;
-            const desc = document.getElementById('taskDesc').value;
-            if(!title) return;
-
-            await addDoc(collection(db, "tasks"), {
-                uid: auth.currentUser.uid,
-                title, desc,
-                column: 'col-hoje',
-                createdAt: Date.now()
-            });
-            document.getElementById('taskTitle').value = '';
-            document.getElementById('taskDesc').value = '';
-        }
-
-        window.deleteTask = async (id) => {
-            await deleteDoc(doc(db, "tasks", id));
-        }
-
-        // Monitoramento de Estado
-        onAuthStateChanged(auth, async (user) => {
-            const authDiv = document.getElementById('auth-container');
-            const appDiv = document.getElementById('app-container');
-
-            if (user) {
-                authDiv.style.display = 'none';
-                appDiv.style.display = 'block';
-                const userSnap = await getDoc(doc(db, "users", user.uid));
-                document.getElementById('user-display-name').innerText = userSnap.data()?.apelido || "Usuário";
-                
-                // Escuta as tarefas em tempo real
-                const q = query(collection(db, "tasks"), where("uid", "==", user.uid));
-                onSnapshot(q, (snap) => {
-                    renderTasks(snap);
-                });
-            } else {
-                authDiv.style.display = 'flex';
-                appDiv.style.display = 'none';
-            }
+        await addDoc(collection(db, "tasks"), {
+            uid: auth.currentUser.uid,
+            title, date, desc,
+            color: selectedColor,
+            column: 'col-hoje',
+            locked: false,
+            createdAt: Date.now()
         });
 
-        function renderTasks(snapshot) {
-            document.getElementById('col-hoje').innerHTML = '<div class="col-title">Hoje</div>';
-            document.getElementById('col-feito').innerHTML = '<div class="col-title">Concluído</div>';
+        document.getElementById('taskTitle').value = '';
+        document.getElementById('taskDesc').value = '';
+    };
 
-            snapshot.forEach(doc => {
-                const t = doc.data();
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h3>${t.title}</h3>
-                    <p style="color:var(--text-dim); font-size:0.85rem; margin-top:5px;">${t.desc}</p>
-                    <div style="margin-top:10px; display:flex; justify-content:flex-end;">
-                        <i class="fa-solid fa-trash-can" style="color:#ff4444; cursor:pointer" onclick="deleteTask('${doc.id}')"></i>
+    window.moveTask = async (id, nextCol) => {
+        const taskRef = doc(db, "tasks", id);
+        const taskSnap = await getDoc(taskRef);
+        if(taskSnap.data().locked) return alert("Desbloqueie para mover!");
+        await updateDoc(taskRef, { column: nextCol });
+    };
+
+    window.toggleLock = async (id, currentStatus) => {
+        await updateDoc(doc(db, "tasks", id), { locked: !currentStatus });
+    };
+
+    window.removeTask = async (id, isLocked) => {
+        if(isLocked) return alert("Desbloqueie para remover!");
+        await deleteDoc(doc(db, "tasks", id));
+    };
+
+    function loadTasks(uid) {
+        const q = query(collection(db, "tasks"), where("uid", "==", uid));
+        onSnapshot(q, (snapshot) => {
+            render(snapshot);
+        });
+    }
+
+    function render(snapshot) {
+        // Limpa as listas mantendo os headers
+        document.querySelectorAll('.column .task-list').forEach(list => list.innerHTML = '');
+
+        snapshot.forEach(docSnap => {
+            const t = docSnap.data();
+            const id = docSnap.id;
+            
+            const card = document.createElement('div');
+            card.className = `card ${t.locked ? 'locked' : ''}`;
+            card.style.setProperty('--c', t.color);
+            
+            let moveButtons = '';
+            if(t.column === 'col-hoje') moveButtons = `<i class="fa-solid fa-share move-icon" onclick="moveTask('${id}', 'col-amanha')"></i>`;
+            if(t.column === 'col-amanha') moveButtons = `
+                <i class="fa-solid fa-reply move-icon" onclick="moveTask('${id}', 'col-hoje')"></i>
+                <i class="fa-solid fa-check move-icon" style="margin-left:10px" onclick="moveTask('${id}', 'col-feito')"></i>`;
+            if(t.column === 'col-feito') moveButtons = `<i class="fa-solid fa-rotate-left move-icon" onclick="moveTask('${id}', 'col-amanha')"></i>`;
+
+            card.innerHTML = `
+                <h3>${t.title}</h3>
+                <p>${t.desc || '...'}</p>
+                <div class="card-meta">
+                    <div class="move-actions">${moveButtons}</div>
+                    <div style="display:flex; gap:10px">
+                        <i class="fa-solid ${t.locked ? 'fa-lock' : 'fa-lock-open'} act-btn ${t.locked ? 'active' : ''}" onclick="toggleLock('${id}', ${t.locked})"></i>
+                        <i class="fa-solid fa-trash-can act-btn" onclick="removeTask('${id}', ${t.locked})"></i>
                     </div>
-                `;
-                document.getElementById(t.column).appendChild(card);
-            });
-        }
-    </script>
+                </div>
+            `;
+            document.querySelector(`#${t.column} .task-list`).appendChild(card);
+        });
+    }
+</script>
 </body>
 </html>
