@@ -1,328 +1,354 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda OS Pro | Premium Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #050507;
-            --surface: #101014;
-            --accent: #00f2ff;
-            --danger: #ff3366;
-            --success: #00ff88;
-            --glass: rgba(255, 255, 255, 0.03);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Pro Max Ultra 2026</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        body {
-            background-color: var(--bg);
-            color: #e0e0e0;
-            min-height: 100vh;
-            padding: 20px;
-            background-image: radial-gradient(circle at 50% -20%, #1a1a2e, #050507);
-        }
+<style>
+:root{
+--bg:#050507;
+--surface:#111116;
+--accent:#00f2ff;
+--danger:#ff3366;
+--glass:rgba(255,255,255,.04);
+}
 
-        .container { max-width: 1300px; margin: 0 auto; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
 
-        /* Header Premium */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 40px;
-        }
+body{
+background:radial-gradient(circle at 50% -20%,#1a1a2e,#050507);
+color:#eee;
+min-height:100vh;
+padding:30px;
+overflow-x:hidden;
+}
 
-        .logo-area h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -1px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        #relogio { font-size: 1.2rem; font-weight: 300; color: var(--accent); text-shadow: 0 0 15px rgba(0,242,255,0.3); }
+/* Partículas */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle,rgba(0,242,255,.08) 1px,transparent 1px);
+background-size:40px 40px;
+animation:moveBg 40s linear infinite;
+pointer-events:none;
+}
+@keyframes moveBg{
+from{background-position:0 0}
+to{background-position:400px 400px}
+}
 
-        /* Barra de Comando */
-        .command-bar {
-            background: var(--surface);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
+.container{max-width:1400px;margin:auto}
 
-        .command-bar input, .command-bar select {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 20px;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
 
-        .command-bar input:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.06); }
+.logo h1{
+font-size:2rem;
+background:linear-gradient(90deg,#fff,var(--accent));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
 
-        .btn-add {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 0 30px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+#relogio{
+font-size:1.3rem;
+color:var(--accent);
+letter-spacing:2px;
+}
 
-        .btn-add:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,242,255,0.2); }
+/* Barra */
+.command-bar{
+background:var(--surface);
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:20px;
+display:grid;
+grid-template-columns:2fr 1fr auto auto;
+gap:15px;
+margin-bottom:25px;
+box-shadow:0 30px 60px rgba(0,0,0,.6);
+animation:fadeDown .8s ease;
+}
 
-        /* Grid Organizável */
-        .agenda-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-        }
+@keyframes fadeDown{
+from{opacity:0;transform:translateY(-20px)}
+to{opacity:1;transform:translateY(0)}
+}
 
-        .card-pro {
-            background: var(--surface);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 24px;
-            padding: 24px;
-            position: relative;
-            cursor: grab;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            overflow: hidden;
-        }
+input,select{
+background:var(--glass);
+border:1px solid rgba(255,255,255,.1);
+padding:12px;
+border-radius:14px;
+color:#fff;
+outline:none;
+}
 
-        .card-pro:active { cursor: grabbing; }
+.btn-add{
+background:var(--accent);
+color:#000;
+border:none;
+padding:0 30px;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
+transition:.4s;
+}
+.btn-add:hover{
+transform:scale(1.08);
+box-shadow:0 0 30px rgba(0,242,255,.6);
+}
 
-        .card-pro.locked { border-color: rgba(255,255,255,0.2); opacity: 0.9; cursor: default; }
-        .card-pro.locked .editable { pointer-events: none; }
+/* Filtros */
+.filters{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
 
-        .card-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
+.filter-btn{
+background:var(--glass);
+border:1px solid rgba(255,255,255,.08);
+padding:8px 16px;
+border-radius:20px;
+cursor:pointer;
+transition:.3s;
+}
+.filter-btn.active,
+.filter-btn:hover{
+background:var(--accent);
+color:#000;
+}
 
-        .card-pro h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
-        .card-pro p { color: #888; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+/* Grid */
+.agenda-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+gap:25px;
+}
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 15px;
-        }
+.card-pro{
+background:linear-gradient(180deg,#14141a,#0d0d11);
+border-radius:26px;
+padding:24px;
+border-top:4px solid var(--accent);
+position:relative;
+transform-style:preserve-3d;
+transition:.5s cubic-bezier(.175,.885,.32,1.275);
+animation:cardIn .6s ease both;
+}
 
-        .time-info { font-size: 0.85rem; color: var(--accent); }
+@keyframes cardIn{
+from{opacity:0;transform:translateY(30px) scale(.9)}
+to{opacity:1;transform:translateY(0) scale(1)}
+}
 
-        .actions { display: flex; gap: 12px; }
-        .action-btn { background: none; border: none; color: #555; cursor: pointer; transition: 0.3s; font-size: 1.1rem; }
-        .action-btn:hover { color: #fff; }
-        .action-btn.del:hover { color: var(--danger); }
-        .action-btn.active-lock { color: var(--accent); }
+.card-pro:hover{
+transform:rotateX(6deg) rotateY(-6deg) scale(1.04);
+box-shadow:0 30px 80px rgba(0,0,0,.7);
+}
 
-        /* Animação de Alerta */
-        @keyframes pulse-alert {
-            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
-        }
-        .alert-imminent { animation: pulse-alert 2s infinite; border-color: var(--accent); }
+.card-pro.imminent{
+animation:pulse 1.4s infinite;
+border-color:var(--danger);
+}
 
-        /* Notificação Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: #000;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-weight: 700;
-            display: none;
-            z-index: 9999;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-        }
-    </style>
+@keyframes pulse{
+0%{box-shadow:0 0 0 0 rgba(255,51,102,.4)}
+70%{box-shadow:0 0 0 20px rgba(255,51,102,0)}
+100%{box-shadow:0 0 0 0 rgba(255,51,102,0)}
+}
+
+.card-pro h3{
+font-size:1.3rem;
+margin-bottom:10px;
+}
+.card-pro p{
+font-size:.95rem;
+color:#aaa;
+min-height:45px;
+}
+
+.card-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+padding-top:15px;
+border-top:1px solid rgba(255,255,255,.06);
+}
+
+.time-tag{
+font-size:.8rem;
+font-weight:600;
+color:var(--accent);
+}
+
+.actions{
+display:flex;
+gap:12px;
+}
+
+.action-btn{
+background:none;
+border:none;
+color:#666;
+cursor:pointer;
+transition:.3s;
+font-size:1.1rem;
+}
+.action-btn:hover{color:#fff}
+
+/* Toast */
+#toast{
+position:fixed;
+top:20px;
+right:20px;
+background:var(--danger);
+padding:16px 30px;
+border-radius:18px;
+font-weight:700;
+display:none;
+box-shadow:0 20px 50px rgba(255,51,102,.6);
+animation:slide .5s ease;
+z-index:9999;
+}
+
+@keyframes slide{
+from{transform:translateX(120%)}
+to{transform:translateX(0)}
+}
+</style>
 </head>
-<body ondrop="drop(event)" ondragover="allowDrop(event)">
 
-    <div class="container">
-        <header>
-            <div class="logo-area">
-                <h1>AGENDA PRO 2026</h1>
-            </div>
-            <div id="relogio">00:00:00</div>
-        </header>
+<body>
 
-        <div class="command-bar">
-            <input type="text" id="titleTask" placeholder="Título da demanda..." style="flex: 2;">
-            <input type="datetime-local" id="dateTask">
-            <select id="catTask">
-                <option value="Trabalho">Trabalho</option>
-                <option value="Pessoal">Pessoal</option>
-                <option value="Urgente">Urgente</option>
-            </select>
-            <button class="btn-add" onclick="createTask()">ADICIONAR TASK</button>
-        </div>
+<div id="toast"></div>
 
-        <div class="agenda-grid" id="mainGrid">
-            </div>
-    </div>
+<div class="container">
+<header>
+<div class="logo"><h1>AGENDA PRO MAX</h1></div>
+<div id="relogio"></div>
+</header>
 
-    <div id="toast" class="toast">Notificação Pro</div>
-    <audio id="alertSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+<div class="command-bar">
+<input id="taskTitle" placeholder="Título da tarefa">
+<input type="datetime-local" id="taskDate">
+<button class="btn-add" onclick="addTask()">CRIAR</button>
+<button class="btn-add" onclick="clearAll()">LIMPAR</button>
+</div>
 
-    <script>
-        let database = JSON.parse(localStorage.getItem('pro_agenda_db')) || [];
-        let notifiedTasks = new Set();
+<div class="filters">
+<div class="filter-btn active" onclick="setFilter('all')">Todas</div>
+<div class="filter-btn" onclick="setFilter('today')">Hoje</div>
+<div class="filter-btn" onclick="setFilter('late')">Atrasadas</div>
+</div>
 
-        function createTask() {
-            const title = document.getElementById('titleTask').value;
-            const date = document.getElementById('dateTask').value;
-            const category = document.getElementById('catTask').value;
+<div class="agenda-grid" id="agendaGrid"></div>
+</div>
 
-            if (!title || !date) return notify("Preencha todos os campos!");
+<audio id="notifSound">
+<source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3">
+</audio>
 
-            const task = {
-                id: 'id' + Date.now(),
-                title,
-                date,
-                category,
-                desc: 'Clique para detalhar...',
-                locked: false,
-                color: category === 'Urgente' ? 'var(--danger)' : 'var(--accent)'
-            };
+<script>
+let tasks=JSON.parse(localStorage.getItem("agenda_ultra"))||[];
+let filter="all";
 
-            database.push(task);
-            saveAndRender();
-            document.getElementById('titleTask').value = '';
-        }
+function addTask(){
+const t=document.getElementById("taskTitle").value;
+const d=document.getElementById("taskDate").value;
+if(!t||!d) return toast("Preencha tudo!");
 
-        function saveAndRender() {
-            localStorage.setItem('pro_agenda_db', JSON.stringify(database));
-            const grid = document.getElementById('mainGrid');
-            grid.innerHTML = '';
+tasks.push({
+id:Date.now(),
+title:t,
+date:d,
+desc:"Clique para editar",
+});
 
-            database.forEach((task, index) => {
-                const imminent = checkImminent(task.date);
-                const div = document.createElement('div');
-                div.className = `card-pro ${task.locked ? 'locked' : ''} ${imminent ? 'alert-imminent' : ''}`;
-                div.draggable = !task.locked;
-                div.id = task.id;
-                div.setAttribute('ondragstart', 'drag(event)');
+save();
+}
 
-                div.innerHTML = `
-                    <div class="card-tag" style="background: ${task.color}22; color: ${task.color}">${task.category}</div>
-                    <h3 contenteditable="${!task.locked}" class="editable" onblur="updateTask('${task.id}', 'title', this.innerText)">${task.title}</h3>
-                    <p contenteditable="${!task.locked}" class="editable" onblur="updateTask('${task.id}', 'desc', this.innerText)">${task.desc}</p>
-                    <div class="card-footer">
-                        <div class="time-info"><i class="fa-regular fa-clock"></i> ${formatDate(task.date)}</div>
-                        <div class="actions">
-                            <button class="action-btn ${task.locked ? 'active-lock' : ''}" onclick="toggleLock('${task.id}')">
-                                <i class="fa-solid fa-${task.locked ? 'lock' : 'lock-open'}"></i>
-                            </button>
-                            <button class="action-btn del" onclick="deleteTask('${task.id}')">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(div);
-            });
-        }
+function save(){
+localStorage.setItem("agenda_ultra",JSON.stringify(tasks));
+render();
+}
 
-        // Sistema de Drag and Drop
-        function allowDrop(ev) { ev.preventDefault(); }
-        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
-        function drop(ev) {
-            ev.preventDefault();
-            let data = ev.dataTransfer.getData("text");
-            let draggedIdx = database.findIndex(t => t.id === data);
-            let target = ev.target.closest('.card-pro');
-            
-            if (target && target.id !== data) {
-                let targetIdx = database.findIndex(t => t.id === target.id);
-                const [removed] = database.splice(draggedIdx, 1);
-                database.splice(targetIdx, 0, removed);
-                saveAndRender();
-            }
-        }
+function render(){
+const g=document.getElementById("agendaGrid");
+g.innerHTML="";
+tasks.filter(checkFilter).forEach(t=>{
+const diff=(new Date(t.date)-new Date())/60000;
+const c=document.createElement("div");
+c.className="card-pro"+(diff>0&&diff<10?" imminent":"");
+c.innerHTML=`
+<h3 contenteditable onblur="edit(${t.id},'title',this.innerText)">${t.title}</h3>
+<p contenteditable onblur="edit(${t.id},'desc',this.innerText)">${t.desc}</p>
+<div class="card-footer">
+<div class="time-tag"><i class="fa-regular fa-clock"></i> ${new Date(t.date).toLocaleString("pt-BR")}</div>
+<div class="actions">
+<button class="action-btn" onclick="remove(${t.id})"><i class="fa fa-trash"></i></button>
+</div>
+</div>`;
+g.appendChild(c);
+});
+}
 
-        // Lembrete inteligente (10 min)
-        function checkImminent(dateStr) {
-            const taskTime = new Date(dateStr).getTime();
-            const now = new Date().getTime();
-            const diffMin = (taskTime - now) / 60000;
-            return diffMin > 0 && diffMin <= 10;
-        }
+function edit(id,f,v){
+tasks.find(t=>t.id===id)[f]=v;
+save();
+}
 
-        function toggleLock(id) {
-            const task = database.find(t => t.id === id);
-            task.locked = !task.locked;
-            saveAndRender();
-        }
+function remove(id){
+if(!confirm("Excluir tarefa?")) return;
+tasks=tasks.filter(t=>t.id!==id);
+save();
+}
 
-        function updateTask(id, field, value) {
-            const task = database.find(t => t.id === id);
-            if (!task.locked) {
-                task[field] = value;
-                localStorage.setItem('pro_agenda_db', JSON.stringify(database));
-            }
-        }
+function clearAll(){
+if(confirm("Apagar tudo?")){
+tasks=[];
+save();
+}
+}
 
-        function deleteTask(id) {
-            const task = database.find(t => t.id === id);
-            if (task.locked) return notify("Desbloqueie para deletar!");
-            database = database.filter(t => t.id !== id);
-            saveAndRender();
-        }
+function toast(msg){
+const t=document.getElementById("toast");
+t.innerText=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",4000);
+}
 
-        function formatDate(ds) {
-            const d = new Date(ds);
-            return d.toLocaleDateString('pt-BR', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'});
-        }
+function setFilter(f){
+filter=f;
+document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+event.target.classList.add("active");
+render();
+}
 
-        function notify(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 3000);
-        }
+function checkFilter(t){
+const now=new Date();
+const d=new Date(t.date);
+if(filter==="today") return d.toDateString()===now.toDateString();
+if(filter==="late") return d<now;
+return true;
+}
 
-        // Loop de Monitoramento Real-time
-        setInterval(() => {
-            const agora = new Date();
-            document.getElementById('relogio').innerText = agora.toLocaleTimeString('pt-BR');
-            
-            database.forEach(t => {
-                const taskTime = new Date(t.date).getTime();
-                const agoraTime = agora.getTime();
-                const diffMin = (taskTime - agoraTime) / 60000;
+setInterval(()=>{
+document.getElementById("relogio").innerText=new Date().toLocaleTimeString("pt-BR");
+},1000);
 
-                // Notificar faltando exatamente 10 min
-                if (diffMin <= 10 && diffMin > 9.9 && !notifiedTasks.has(t.id)) {
-                    notify(`⚠️ LEMBRETE: ${t.title} em 10 minutos!`);
-                    document.getElementById('alertSound').play();
-                    notifiedTasks.add(t.id);
-                    saveAndRender(); // Ativa o brilho no card
-                }
-            });
-        }, 1000);
-
-        saveAndRender();
-    </script>
+render();
+</script>
 </body>
 </html>
