@@ -1,338 +1,196 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Planejer Pro | Cloud 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #020205;
-            --surface: rgba(18, 18, 24, 0.98);
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --text-main: #ffffff;
-            --text-dim: #9494a3;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            background: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            background-image: radial-gradient(circle at 50% -20%, #1a1a2e, #020205);
-            overflow-x: hidden;
-        }
-
-        /* Telas de Autenticação */
-        #auth-container {
-            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-        }
-        .auth-card {
-            background: var(--surface); width: 100%; max-width: 400px;
-            padding: 30px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1);
-            text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-        }
-        .auth-input { 
-            width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 15px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none;
-        }
-
-        /* Conteúdo do App (Escondido por padrão) */
-        #app-content { display: none; }
-
-        .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px 25px; }
-        .brand h1 { font-weight: 800; font-size: 1.8rem; letter-spacing: -1.5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .creator-panel {
-            background: var(--surface);
-            border-radius: 28px; padding: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-            margin-bottom: 30px;
-            display: flex; flex-direction: column; gap: 12px;
-        }
-
-        input, textarea {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 14px; border-radius: 15px;
-            color: #fff; font-size: 16px; width: 100%; outline: none;
-        }
-
-        .color-palette { display: flex; gap: 12px; padding: 5px; }
-        .color-opt { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
-        .color-opt.selected { border-color: #fff; box-shadow: 0 0 10px currentColor; transform: scale(1.1); }
-
-        .btn-add {
-            background: var(--primary); color: #000; border: none; padding: 16px;
-            border-radius: 15px; font-weight: 800; text-transform: uppercase; cursor: pointer;
-        }
-
-        .board { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; }
-        .board::-webkit-scrollbar { display: none; }
-
-        .column {
-            background: rgba(255,255,255,0.02);
-            border-radius: 25px; padding: 15px;
-            min-width: 85vw; scroll-snap-align: center;
-            min-height: 400px;
-        }
-
-        .column-header {
-            font-size: 0.8rem; font-weight: 800; color: var(--primary);
-            text-transform: uppercase; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .card {
-            background: var(--surface);
-            border-radius: 20px; padding: 18px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 12px;
-            position: relative;
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } }
-
-        .card::before {
-            content: ''; position: absolute; top:0; left:0; width:5px; height:100%;
-            background: var(--c); border-radius: 20px 0 0 20px;
-        }
-
-        .card h3 { font-size: 1rem; margin-bottom: 5px; color: #fff; }
-        .card p { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
-
-        .card-meta {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .move-actions { display: flex; gap: 8px; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
-        .act-btn { color: var(--text-dim); font-size: 1.1rem; padding: 5px; cursor: pointer; }
-        .act-btn.active { color: var(--primary); }
-        .move-icon { color: var(--primary); font-size: 0.9rem; cursor: pointer; }
-
-        @media (min-width: 1024px) {
-            .column { min-width: 32%; }
-            .board { overflow-x: hidden; }
-        }
-    </style>
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="manifest" href="manifest.json">
+    
+    <title>TaskMaster Pro | Gerenciamento</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Script Oficial do Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-
-<div id="auth-container">
-    <div class="auth-card" id="login-form">
-        <h2 style="margin-bottom: 20px;">Planejer</h2>
-        <input type="email" id="email" class="auth-input" placeholder="E-mail">
-        <input type="password" id="password" class="auth-input" placeholder="Senha">
-        <button class="btn-add" style="width: 100%;" onclick="handleAuth()">Entrar</button>
-        <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Não tem conta? <b>Cadastre-se</b></p>
-    </div>
-
-    <div class="auth-card" id="register-form" style="display: none;">
-        <h2 style="margin-bottom: 20px;">Nova Conta</h2>
-        <input type="text" id="reg-nome" class="auth-input" placeholder="Nome Completo">
-        <input type="text" id="reg-apelido" class="auth-input" placeholder="Apelido">
-        <input type="email" id="reg-email" class="auth-input" placeholder="E-mail">
-        <input type="password" id="reg-password" class="auth-input" placeholder="Senha">
-        <button class="btn-add" style="width: 100%;" onclick="handleRegister()">Criar Conta</button>
-        <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" onclick="toggleAuth()">Já tem conta? <b>Login</b></p>
-    </div>
-</div>
-
-<div id="app-content">
-    <div class="container">
-        <header>
-            <div class="brand"><h1>Planejer</h1></div>
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <span id="user-name" style="font-size: 0.8rem; color: var(--primary);"></span>
-                <i class="fa-solid fa-right-from-bracket" style="cursor:pointer" onclick="logout()"></i>
+    <!-- TELA DE AUTENTICAÇÃO -->
+    <div id="authScreen" class="auth-screen active">
+        <div class="auth-card">
+            <div class="logo justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <h2>TaskMaster</h2>
             </div>
-        </header>
+            <p class="auth-subtitle">Gerencie suas tarefas de forma isolada e segura.</p>
 
-        <div class="creator-panel">
-            <input type="text" id="taskTitle" placeholder="Título do plano">
-            <input type="datetime-local" id="taskDate">
-            <textarea id="taskDesc" placeholder="Descrição rápida..."></textarea>
-            <div class="color-palette">
-                <div class="color-opt selected" style="background: #00f2ff;" onclick="selectColor(this, '#00f2ff')"></div>
-                <div class="color-opt" style="background: #7000ff;" onclick="selectColor(this, '#7000ff')"></div>
-                <div class="color-opt" style="background: #ff00c8;" onclick="selectColor(this, '#ff00c8')"></div>
-                <div class="color-opt" style="background: #00ff88;" onclick="selectColor(this, '#00ff88')"></div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin">Entrar</button>
+                <button class="auth-tab" id="tabRegister">Criar Conta</button>
             </div>
-            <button class="btn-add" onclick="addTask()">Salvar no Cloud</button>
-        </div>
 
-        <div class="board">
-            <div class="column" id="col-hoje">
-                <div class="column-header"><i class="fa-solid fa-circle"></i> Hoje</div>
-                <div class="task-list"></div>
+            <form id="authForm" class="auth-form">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="authEmail" required placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="authPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary w-100" id="authSubmitBtn">Entrar</button>
+            </form>
+
+            <div class="auth-divider"><span>OU</span></div>
+
+            <!-- Botão do Google -->
+            <div id="g_id_onload"
+                 data-client_id="COLOQUE_SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-callback="lidarComRespostaGoogle"
+                 data-auto_prompt="false">
             </div>
-            <div class="column" id="col-amanha">
-                <div class="column-header"><i class="fa-solid fa-arrow-right"></i> Próximos</div>
-                <div class="task-list"></div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="center"
+                 style="display: flex; justify-content: center; width: 100%;">
             </div>
-            <div class="column" id="col-feito">
-                <div class="column-header"><i class="fa-solid fa-check"></i> Feito</div>
-                <div class="task-list"></div>
-            </div>
+            <p class="google-aviso">Lembre-se de configurar seu Client ID do Google no código HTML para ativar este botão.</p>
         </div>
     </div>
-</div>
 
-<script type="module">
-    // IMPORTAÇÃO DO FIREBASE SDK v9
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+    <!-- APLICATIVO PRINCIPAL (Oculto até o login) -->
+    <div id="appWrapper" class="app-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <h2>TaskMaster</h2>
+            </div>
+            <div class="user-profile">
+                <div class="avatar">👤</div>
+                <span id="userDisplayEmail">usuario@email.com</span>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="dashboard">Dashboard</button>
+                <button class="nav-btn" data-target="tasks">Minhas Tarefas</button>
+                <button class="nav-btn" data-target="calendar">Calendário</button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button id="themeToggle" class="btn-secondary w-100 mb-2">Alternar Tema</button>
+                <button id="btnLogout" class="btn-danger w-100">Sair</button>
+            </div>
+        </aside>
 
-    // CONFIGURAÇÃO USANDO SUAS CHAVES
-    const firebaseConfig = {
-        apiKey: "AIzaSyCOeI8GlFZ6vj8yGML3AhUkNIFpQFPJ-kQ",
-        authDomain: "planejer.firebaseapp.com",
-        projectId: "planejer",
-        storageBucket: "planejer.firebasestorage.app",
-        messagingSenderId: "338141836587",
-        appId: "1:338141836587:web:1a6ab2bac7f8ac9dc6416e"
-    };
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Pesquisar (atalho: /)...">
+                </div>
+                <div class="actions">
+                    <button id="btnExportCSV" class="btn-secondary">CSV</button>
+                    <button id="btnExportPDF" class="btn-secondary">PDF</button>
+                    <button id="btnNewTask" class="btn-primary">+ Nova Tarefa</button>
+                </div>
+            </header>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+            <!-- Views -->
+            <section id="dashboard" class="view active">
+                <div class="header-title">
+                    <h1>Visão Geral</h1>
+                    <p id="currentDateDisplay"></p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>Total</h3><p id="statTotal">0</p></div>
+                    <div class="stat-card blue"><h3>Concluídas</h3><p id="statCompleted">0</p></div>
+                    <div class="stat-card yellow"><h3>Pendentes</h3><p id="statPending">0</p></div>
+                    <div class="stat-card red"><h3>Vencidas</h3><p id="statOverdue">0</p></div>
+                    <div class="stat-card green"><h3>Hoje</h3><p id="statToday">0</p></div>
+                </div>
+                <div class="progress-section">
+                    <h3>Progresso Geral</h3>
+                    <div class="progress-bar-bg"><div id="generalProgress" class="progress-bar-fill"></div></div>
+                    <span id="progressText">0%</span>
+                </div>
+            </section>
 
-    let selectedColor = '#00f2ff';
+            <section id="tasks" class="view">
+                <div class="header-title"><h1>Gerenciamento de Tarefas</h1></div>
+                <div class="controls-bar">
+                    <select id="filterSelect">
+                        <option value="all">Todas as Tarefas</option>
+                        <option value="today">Hoje</option>
+                        <option value="pending">Pendentes</option>
+                        <option value="completed">Concluídas</option>
+                        <option value="overdue">Vencidas</option>
+                        <option value="high">Alta Prioridade</option>
+                    </select>
+                    <select id="sortSelect">
+                        <option value="date-asc">Data (Mais próximas)</option>
+                        <option value="date-desc">Data (Mais distantes)</option>
+                        <option value="priority">Prioridade</option>
+                    </select>
+                    <button id="btnMarkAll" class="btn-secondary">Concluir Todas</button>
+                    <button id="btnClearAll" class="btn-danger">Excluir Todas</button>
+                </div>
+                <div class="tasks-grid" id="tasksContainer"></div>
+            </section>
 
-    // AUTH FUNCTIONS
-    window.toggleAuth = () => {
-        const login = document.getElementById('login-form');
-        const reg = document.getElementById('register-form');
-        login.style.display = login.style.display === 'none' ? 'block' : 'none';
-        reg.style.display = reg.style.display === 'none' ? 'block' : 'none';
-    };
-
-    window.handleRegister = async () => {
-        const nome = document.getElementById('reg-nome').value;
-        const apelido = document.getElementById('reg-apelido').value;
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-password').value;
-
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, pass);
-            await setDoc(doc(db, "users", res.user.uid), { nome, apelido, email });
-        } catch (e) { alert("Erro ao cadastrar: " + e.message); }
-    };
-
-    window.handleAuth = () => {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('password').value;
-        signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Erro: " + e.message));
-    };
-
-    window.logout = () => signOut(auth);
-
-    // CORE LOGIC
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            document.getElementById('auth-container').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            
-            const userSnap = await getDoc(doc(db, "users", user.uid));
-            document.getElementById('user-name').innerText = userSnap.exists() ? userSnap.data().apelido : "Usuário";
-            
-            loadTasks(user.uid);
-        } else {
-            document.getElementById('auth-container').style.display = 'flex';
-            document.getElementById('app-content').style.display = 'none';
-        }
-    });
-
-    window.selectColor = (el, color) => {
-        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedColor = color;
-    };
-
-    window.addTask = async () => {
-        const title = document.getElementById('taskTitle').value;
-        const date = document.getElementById('taskDate').value;
-        const desc = document.getElementById('taskDesc').value;
-
-        if(!title || !date) return alert("Título e Data são obrigatórios!");
-
-        await addDoc(collection(db, "tasks"), {
-            uid: auth.currentUser.uid,
-            title, date, desc,
-            color: selectedColor,
-            column: 'col-hoje',
-            locked: false,
-            createdAt: Date.now()
-        });
-
-        document.getElementById('taskTitle').value = '';
-        document.getElementById('taskDesc').value = '';
-    };
-
-    window.moveTask = async (id, nextCol) => {
-        const taskRef = doc(db, "tasks", id);
-        const taskSnap = await getDoc(taskRef);
-        if(taskSnap.data().locked) return alert("Desbloqueie para mover!");
-        await updateDoc(taskRef, { column: nextCol });
-    };
-
-    window.toggleLock = async (id, currentStatus) => {
-        await updateDoc(doc(db, "tasks", id), { locked: !currentStatus });
-    };
-
-    window.removeTask = async (id, isLocked) => {
-        if(isLocked) return alert("Desbloqueie para remover!");
-        await deleteDoc(doc(db, "tasks", id));
-    };
-
-    function loadTasks(uid) {
-        const q = query(collection(db, "tasks"), where("uid", "==", uid));
-        onSnapshot(q, (snapshot) => {
-            render(snapshot);
-        });
-    }
-
-    function render(snapshot) {
-        // Limpa as listas mantendo os headers
-        document.querySelectorAll('.column .task-list').forEach(list => list.innerHTML = '');
-
-        snapshot.forEach(docSnap => {
-            const t = docSnap.data();
-            const id = docSnap.id;
-            
-            const card = document.createElement('div');
-            card.className = `card ${t.locked ? 'locked' : ''}`;
-            card.style.setProperty('--c', t.color);
-            
-            let moveButtons = '';
-            if(t.column === 'col-hoje') moveButtons = `<i class="fa-solid fa-share move-icon" onclick="moveTask('${id}', 'col-amanha')"></i>`;
-            if(t.column === 'col-amanha') moveButtons = `
-                <i class="fa-solid fa-reply move-icon" onclick="moveTask('${id}', 'col-hoje')"></i>
-                <i class="fa-solid fa-check move-icon" style="margin-left:10px" onclick="moveTask('${id}', 'col-feito')"></i>`;
-            if(t.column === 'col-feito') moveButtons = `<i class="fa-solid fa-rotate-left move-icon" onclick="moveTask('${id}', 'col-amanha')"></i>`;
-
-            card.innerHTML = `
-                <h3>${t.title}</h3>
-                <p>${t.desc || '...'}</p>
-                <div class="card-meta">
-                    <div class="move-actions">${moveButtons}</div>
-                    <div style="display:flex; gap:10px">
-                        <i class="fa-solid ${t.locked ? 'fa-lock' : 'fa-lock-open'} act-btn ${t.locked ? 'active' : ''}" onclick="toggleLock('${id}', ${t.locked})"></i>
-                        <i class="fa-solid fa-trash-can act-btn" onclick="removeTask('${id}', ${t.locked})"></i>
+            <section id="calendar" class="view">
+                <div class="header-title">
+                    <h1>Calendário</h1>
+                    <div class="calendar-controls">
+                        <button id="prevMonth" class="btn-secondary">&lt;</button>
+                        <h2 id="monthDisplay">Mês Ano</h2>
+                        <button id="nextMonth" class="btn-secondary">&gt;</button>
                     </div>
                 </div>
-            `;
-            document.querySelector(`#${t.column} .task-list`).appendChild(card);
-        });
-    }
-</script>
+                <div class="calendar-wrapper-card">
+                    <!-- Nova estrutura grid para alinhar cabeçalho e dias -->
+                    <div class="days-header-container">
+                        <div class="day-name">Dom</div><div class="day-name">Seg</div>
+                        <div class="day-name">Ter</div><div class="day-name">Qua</div>
+                        <div class="day-name">Qui</div><div class="day-name">Sex</div>
+                        <div class="day-name">Sáb</div>
+                    </div>
+                    <div id="calendarDays" class="days-container"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modais e Notificações (Sem alterações estruturais) -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nova Tarefa</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group"><label>Título *</label><input type="text" id="taskTitle" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Categoria</label><input type="text" id="taskCategory"></div>
+                    <div class="form-group"><label>Prioridade</label>
+                        <select id="taskPriority"><option value="Baixa">Baixa</option><option value="Média" selected>Média</option><option value="Alta">Alta</option><option value="Urgente">Urgente</option></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Data Limite *</label><input type="date" id="taskDate" required></div>
+                    <div class="form-group"><label>Hora Limite</label><input type="time" id="taskTime"></div>
+                </div>
+                <div class="form-group"><label>Descrição & Observações</label><textarea id="taskDesc" rows="3"></textarea></div>
+                <div class="modal-footer"><button type="button" class="btn-secondary" id="cancelModal">Cancelar</button><button type="submit" class="btn-primary">Salvar Tarefa</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); }
+    </script>
 </body>
 </html>
